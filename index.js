@@ -11,7 +11,7 @@ import { fileURLToPath } from "url";
 import { dirname, join } from "path";
 
 const app = express();
-const port = process.env.PORT || 8800;
+const port = process.env.PORT || 8801;
 
 const corsOptions = {
   origin: [
@@ -37,7 +37,9 @@ const corsOptions = {
   preflightContinue: false,
   optionsSuccessStatus: 204,
 };
-app.use(cors(corsOptions));
+app.use(
+  cors(corsOptions)
+);
 
 // app.set("trust proxy", 1);
 // app.use(
@@ -51,6 +53,7 @@ app.use(cors(corsOptions));
 //     },
 //   })
 // );
+
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Credentials", true);
