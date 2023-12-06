@@ -10,12 +10,15 @@ import multer from "multer";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
 
-
 const app = express();
 const port = process.env.PORT || 8800;
 
 const corsOptions = {
-  origin: [`https://fancy-caramel-9e3c4d.netlify.app`],
+  origin: [
+    `https://uatrebeneficios.galgoproductora.com`,
+    `https://beneficiosuatre.com.ar`,
+
+  ],
   methods: "GET,HEAD,PUT,OPTIONS,POST,DELETE",
   allowedHeaders: [
     "Access-Control-Allow-Headers",
@@ -34,9 +37,7 @@ const corsOptions = {
   preflightContinue: false,
   optionsSuccessStatus: 204,
 };
-app.use(
-  cors(corsOptions)
-);
+app.use(cors(corsOptions));
 
 // app.set("trust proxy", 1);
 // app.use(
@@ -51,9 +52,7 @@ app.use(
 //   })
 // );
 
-
 app.use((req, res, next) => {
-  
   res.setHeader("Access-Control-Allow-Credentials", true);
   // Otras cabeceras CORS si es necesario
   res.setHeader(
@@ -61,41 +60,55 @@ app.use((req, res, next) => {
     "Origin, X-Requested-With, Content-Type, Accept"
   );
 
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PUT, DELETE, OPTIONS"
+  );
   next();
 });
 
 app.options(
   "/api/auth/*",
   cors({
-    origin: ["https://fancy-caramel-9e3c4d.netlify.app"],
+    origin: [
+      "https://uatrebeneficios.galgoproductora.com",
+      `https://beneficiosuatre.com.ar`,
+    ],
     credentials: true,
   })
 );
 app.options(
   "/api/users/*",
   cors({
-    origin: ["https://fancy-caramel-9e3c4d.netlify.app"],
+    origin: [
+      "https://uatrebeneficios.galgoproductora.com",
+      `https://beneficiosuatre.com.ar`,
+    ],
     credentials: true,
   })
 );
 app.options(
   "/api/tasks/*",
   cors({
-    origin: ["http://localhost:5173"],
+    origin: [
+      "https://uatrebeneficios.galgoproductora.com",
+      `https://beneficiosuatre.com.ar`,
+    ],
     credentials: true,
   })
 );
 app.options(
   "/api/uploads/*",
   cors({
-    origin: ["https://fancy-caramel-9e3c4d.netlify.app"],
+    origin: [
+      "https://uatrebeneficios.galgoproductora.com",
+      `https://beneficiosuatre.com.ar`,
+    ],
     credentials: true,
   })
 );
 app.use(express.json());
 app.use(cookieParser());
-
 
 // Obtiene la ruta del archivo actual (index.js)
 const __filename = fileURLToPath(import.meta.url);
@@ -107,7 +120,7 @@ const uploadsDirectory = join(__dirname, "uploads");
 // app.use("/", (req, res) => {
 //   res.send("Hello World!");
 // });
-console.log("Configuring auth routes..."); 
+console.log("Configuring auth routes...");
 app.use("/api/auth", authRoutes);
 console.log("Configuring auth routes...");
 app.use("/api/users", userRoutes);
@@ -116,10 +129,9 @@ app.use("/api/tasks", postRoutes);
 console.log("Configuring auth routes...");
 app.use("/uploads", express.static(uploadsDirectory));
 console.log("Configuring auth routes...");
-app.use("/api/uploads", uploadRoutes );
+app.use("/api/uploads", uploadRoutes);
 // app.use(middlewares.notFound);
 // app.use(middlewares.errorHandler);
-
 
 app.listen(port, () => {
   console.log("Connected! in port", port);
